@@ -222,146 +222,140 @@
 </div>
 
 <div class="Fourth Step">
-  <h2>🎨 Step 4: Frontend Templates (UI) Explained</h2>
-
-<p>This project uses Django Templates to render dynamic data on the browser using Bootstrap for styling. Templates follow Django’s inheritance mechanism for reusability and consistency.</p>
+<h2>🎨 Step 4: Frontend Templates (UI) Explained</h2>
+<p>This project uses Django’s template inheritance with Bootstrap for a clean, responsive UI. Below are the three main templates:</p>
 
 <h3>🧩 <code>Navbar.html</code> (Base Template)</h3>
 <ul>
-  <li>📌 Acts as the main layout file extended by all pages.</li>
-  <li>🔗 Includes the navigation bar with links to IMDb and TOI scrapers.</li>
-  <li>📦 Loads Bootstrap via CDN for responsive styling.</li>
-  <li>🧱 Contains <code>{% block title %}</code> and <code>{% block content %}</code> tags for page-specific customization.</li>
+  <li>Acts as the master layout extended by all pages</li>
+  <li>Includes the site-wide navbar with links to IMDb and TOI sections</li>
+  <li>Loads Bootstrap via CDN</li>
+  <li>Defines two blocks: <code>{% block title %}</code> and <code>{% block content %}</code></li>
 </ul>
-```html
 <pre><code>{% raw %}
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>{% block title %}Web Scraper{% endblock %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Web Scrapper</a>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'IMDBHome' %}">IMDB Scrapper</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'TOIHome' %}">Times of India Scrapper</a>
-            </li>
-          </ul>
-        </div>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Web Scraper{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Web Scraper</a>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'IMDBHome' %}">IMDB Scraper</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'TOIHome' %}">TOI Scraper</a>
+          </li>
+        </ul>
       </div>
-    </nav>
+    </div>
+  </nav>
 
+  <div class="container mt-4">
     {% block content %}{% endblock %}
-  </body>
+  </div>
+</body>
 </html>
 {% endraw %}</code></pre>
-```
 
 <h3>🎬 <code>IMDBindex.html</code> (IMDb Template)</h3>
 <ul>
-  <li>🧾 Extends <code>Navbar.html</code> and injects content using <code>{% block content %}</code>.</li>
-  <li>🔍 Contains a search form to query IMDb news titles and descriptions.</li>
-  <li>🗂️ Iterates over <code>data</code> passed from views to display cards for each news article.</li>
+  <li>Extends <code>Navbar.html</code></li>
+  <li>Provides a search form for IMDb news (<code>imdb_search</code>)</li>
+  <li>Loops over <code>data</code> and displays each news item as a Bootstrap card</li>
 </ul>
-```html
 <pre><code>{% raw %}
 {% extends 'Navbar.html' %}
-{% block title %}IMDB Scrapper{% endblock %}
+{% block title %}IMDB Scraper{% endblock %}
 
 {% block content %}
-<nav class="navbar bg-body-tertiary">
+<nav class="navbar bg-body-tertiary mb-3">
   <form class="d-flex" method="get">
     {% csrf_token %}
-    <input class="form-control" type="search" placeholder="Search IMDB News" name="imdb_search">
+    <input class="form-control me-2" type="search" name="imdb_search" placeholder="Search IMDb News">
     <button class="btn btn-outline-success" type="submit">Search</button>
   </form>
 </nav>
 
-<div class="container">
-  <div class="row">
-    {% for news in data %}
-    <div class="col-4">
-      <div class="card" style="width: 18rem;">
-        <img src="{{ news.image }}" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">{{ news.title }}</h5>
-          <p class="card-text">{{ news.description }}</p>
-          <a href="{{ news.external_link }}" class="btn btn-primary">Go somewhere</a>
-        </div>
+<div class="row">
+  {% for news in data %}
+  <div class="col-md-4 mb-4">
+    <div class="card h-100">
+      <img src="{{ news.image }}" class="card-img-top" alt="{{ news.title }}">
+      <div class="card-body">
+        <h5 class="card-title">{{ news.title }}</h5>
+        <p class="card-text">{{ news.description }}</p>
+      </div>
+      <div class="card-footer">
+        <a href="{{ news.external_link }}" class="btn btn-primary" target="_blank">Read More</a>
       </div>
     </div>
-    {% endfor %}
   </div>
+  {% endfor %}
 </div>
 {% endblock %}
 {% endraw %}</code></pre>
-```
 
 <h3>📰 <code>TOIindex.html</code> (Times of India Template)</h3>
 <ul>
-  <li>🧾 Also extends <code>Navbar.html</code>.</li>
-  <li>🔍 Includes a search form for Times of India news items.</li>
-  <li>🗂️ Dynamically renders each news card with an image, title, description, and external link.</li>
+  <li>Extends <code>Navbar.html</code></li>
+  <li>Provides a search form for TOI news (<code>toi_search</code>)</li>
+  <li>Loops over <code>data</code> and displays each news item as a Bootstrap card</li>
 </ul>
-```html
 <pre><code>{% raw %}
 {% extends 'Navbar.html' %}
 {% block title %}TOI News{% endblock %}
 
 {% block content %}
-<nav class="navbar bg-body-tertiary">
+<nav class="navbar bg-body-tertiary mb-3">
   <form class="d-flex" method="get">
     {% csrf_token %}
-    <input class="form-control" type="search" placeholder="Search TOI News" name="toi_search">
+    <input class="form-control me-2" type="search" name="toi_search" placeholder="Search TOI News">
     <button class="btn btn-outline-success" type="submit">Search</button>
   </form>
 </nav>
 
-<div class="container">
-  <div class="row">
-    {% for news in data %}
-    <div class="col-4">
-      <div class="card" style="width: 18rem;">
-        <img src="{{ news.image }}" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">{{ news.title }}</h5>
-          <p class="card-text">{{ news.description }}</p>
-          <a href="{{ news.external_link }}" class="btn btn-primary">Go somewhere</a>
-        </div>
+<div class="row">
+  {% for news in data %}
+  <div class="col-md-4 mb-4">
+    <div class="card h-100">
+      <img src="{{ news.image }}" class="card-img-top" alt="{{ news.title }}">
+      <div class="card-body">
+        <h5 class="card-title">{{ news.title }}</h5>
+        <p class="card-text">{{ news.description }}</p>
+      </div>
+      <div class="card-footer">
+        <a href="{{ news.external_link }}" class="btn btn-primary" target="_blank">Read More</a>
       </div>
     </div>
-    {% endfor %}
   </div>
+  {% endfor %}
 </div>
 {% endblock %}
 {% endraw %}</code></pre>
-```
-<p>✨ These templates offer a smooth and responsive UI where users can trigger scrapers and browse news content categorized by source.</p>
 
 </div>
 
 <div class="Fifth Step">
   <img src='IMDB_Original.png' width='800'>
-  <labeL>5.1 IMDB original Webpage</labeL>
+  <p>5.1 IMDB original Webpage</p>
   <img src='IMDB.png' width='800'>
-  <labeL>5.2 IMDB Web Scrapper Page</labeL>
+  <p>5.2 IMDB Web Scrapper Page</p>
   <img src='Search_IMDB.png' width='800'>
-  <labeL>5.3 Searching in IMDB Page</labeL>
+  <p>5.3 Searching in IMDB Page</p>
   <br><br>
   <img src='TOI_Original.png' width='800'>
-  <labeL>5.4 TOI original Webpage</labeL>
+  <p>5.4 TOI original Webpage</p>
   <img src='TOI.png' width='800'>
-  <labeL>5.5 TOI Web Scrapper Page</labeL>
+  <p>5.5 TOI Web Scrapper Page</p>
   <img src='Search_TOI.png' width='800'>
-  <labeL>5.6 Searching in TOI Page</labeL>
+  <p>5.6 Searching in TOI Page</p>
   
 </div>
 
