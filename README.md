@@ -233,7 +233,7 @@
   <li>📦 Loads Bootstrap via CDN for responsive styling.</li>
   <li>🧱 Contains <code>{% block title %}</code> and <code>{% block content %}</code> tags for page-specific customization.</li>
 </ul>
-
+```html
 <pre><code>{% raw %}
 <!doctype html>
 <html lang="en">
@@ -263,6 +263,7 @@
   </body>
 </html>
 {% endraw %}</code></pre>
+```
 
 <h3>🎬 <code>IMDBindex.html</code> (IMDb Template)</h3>
 <ul>
@@ -270,7 +271,7 @@
   <li>🔍 Contains a search form to query IMDb news titles and descriptions.</li>
   <li>🗂️ Iterates over <code>data</code> passed from views to display cards for each news article.</li>
 </ul>
-
+```html
 <pre><code>{% raw %}
 {% extends 'Navbar.html' %}
 {% block title %}IMDB Scrapper{% endblock %}
@@ -302,6 +303,7 @@
 </div>
 {% endblock %}
 {% endraw %}</code></pre>
+```
 
 <h3>📰 <code>TOIindex.html</code> (Times of India Template)</h3>
 <ul>
@@ -309,7 +311,7 @@
   <li>🔍 Includes a search form for Times of India news items.</li>
   <li>🗂️ Dynamically renders each news card with an image, title, description, and external link.</li>
 </ul>
-
+```html
 <pre><code>{% raw %}
 {% extends 'Navbar.html' %}
 {% block title %}TOI News{% endblock %}
@@ -341,12 +343,25 @@
 </div>
 {% endblock %}
 {% endraw %}</code></pre>
-
+```
 <p>✨ These templates offer a smooth and responsive UI where users can trigger scrapers and browse news content categorized by source.</p>
 
 </div>
 
 <div class="Fifth Step">
+  <img src='IMDB_Original.png' width='800'>
+  <labeL>5.1 IMDB original Webpage</labeL>
+  <img src='IMDB.png' width='800'>
+  <labeL>5.2 IMDB Web Scrapper Page</labeL>
+  <img src='Search_IMDB.png' width='800'>
+  <labeL>5.3 Searching in IMDB Page</labeL>
+  <br><br>
+  <img src='TOI_Original.png' width='800'>
+  <labeL>5.4 TOI original Webpage</labeL>
+  <img src='TOI.png' width='800'>
+  <labeL>5.5 TOI Web Scrapper Page</labeL>
+  <img src='Search_TOI.png' width='800'>
+  <labeL>5.6 Searching in TOI Page</labeL>
   
 </div>
 
