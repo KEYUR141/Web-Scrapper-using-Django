@@ -343,9 +343,10 @@
 </div>
 
 <div class="Fifth Step">
+  <h2>Images of the Ouputs</h2>
   <img src='IMDB_Original.png' width='800'>
   <p>5.1 IMDB original Webpage</p>
-  <img src='IMDB.png' width='800'>
+  <img src='IIMDB.png' width='800'>
   <p>5.2 IMDB Web Scrapper Page</p>
   <img src='Search_IMDB.png' width='800'>
   <p>5.3 Searching in IMDB Page</p>
