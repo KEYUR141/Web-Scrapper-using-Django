@@ -264,14 +264,15 @@
 </body>
 </html>
 ```
-```html
+
 <h3>🎬 <code>IMDBindex.html</code> (IMDb Template)</h3>
 <ul>
   <li>Extends <code>Navbar.html</code></li>
   <li>Provides a search form for IMDb news (<code>imdb_search</code>)</li>
   <li>Loops over <code>data</code> and displays each news item as a Bootstrap card</li>
 </ul>
-<pre><code>{% raw %}
+
+```html
 {% extends 'Navbar.html' %}
 {% block title %}IMDB Scraper{% endblock %}
 
