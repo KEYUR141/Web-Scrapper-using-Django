@@ -129,3 +129,255 @@
 </code></pre>
 
 </div>
+
+
+<div class="third step">
+  <h2>⚙️ Step 3: Django Views Explained</h2>
+
+<p>In this step, Django views are used to connect the backend scraping logic with the frontend templates. Views manage both user-triggered scraping and data display from the database.</p>
+
+<h3>🎬 <code>imdb_run_scrapper(request)</code></h3>
+<ul>
+  <li>🔁 Calls the <code>scrape_imdb_news()</code> function to fetch and save latest IMDb news articles.</li>
+  <li>✅ Returns a <code>JsonResponse</code> to confirm successful execution with a message.</li>
+</ul>
+
+<pre><code>def imdb_run_scrapper(request):
+    scrape_imdb_news()
+    return JsonResponse({
+        "status": True,
+        "Message": "IMDB Scrapper Executed"
+    })
+</code></pre>
+
+<h3>🖼️ <code>imdb_index(request)</code></h3>
+<ul>
+  <li>🗃️ Retrieves all IMDb news records from the database using <code>IMBD_News.objects.all()</code>.</li>
+  <li>🔍 If a search query (<code>imdb_search</code>) is provided via GET request, filters news based on keywords in title or description using <code>Q()</code> lookups.</li>
+  <li>🖥️ Renders the results to the <code>IMDBindex.html</code> template.</li>
+</ul>
+
+<pre><code>def imdb_index(request):
+    data = IMBD_News.objects.all()
+    search = request.GET.get('imdb_search')
+
+    if search:
+        data = data.filter(
+            Q(title__icontains=search) |
+            Q(description__icontains=search)
+        )
+
+    return render(request, "IMDBindex.html", context={
+        'data': data,
+        'toi_search': search
+    })
+</code></pre>
+
+<h3>🗞️ <code>toi_run_scrapper(request)</code></h3>
+<ul>
+  <li>🔁 Triggers <code>scrape_toi_news()</code> function to fetch the latest TOI news.</li>
+  <li>✅ Returns a <code>JsonResponse</code> confirming that the scraper executed successfully.</li>
+</ul>
+
+<pre><code>def toi_run_scrapper(request):
+    scrape_toi_news()
+    return JsonResponse({
+        "status": True,
+        "Message": "Times of India Scrapper Executed"
+    })
+</code></pre>
+
+<h3>📰 <code>toi_index(request)</code></h3>
+<ul>
+  <li>🗃️ Retrieves all TOI news records from the <code>TOI_News</code> model.</li>
+  <li>🔍 Applies filters based on search query (<code>toi_search</code>) to match relevant titles or descriptions.</li>
+  <li>🖥️ Renders the data in the <code>TOIindex.html</code> template.</li>
+</ul>
+
+<pre><code>def toi_index(request):
+    data = TOI_News.objects.all()
+    search = request.GET.get('toi_search')
+
+    if search:
+        data = data.filter(
+            Q(title__icontains=search) |
+            Q(description__icontains=search)
+        )
+
+    return render(request, "TOIindex.html", context={
+        'data': data,
+        'toi_search': search
+    })
+</code></pre>
+
+<h3>🌐 <code>Main_Page(request)</code></h3>
+<ul>
+  <li>📃 Simply renders the main landing page (<code>NavBar.html</code>), which likely includes links to both IMDb and TOI sections.</li>
+</ul>
+
+<pre><code>def Main_Page(request):
+    return render(request, 'NavBar.html')
+</code></pre>
+
+</div>
+
+<div class="Fourth Step">
+  <h2>🎨 Step 4: Frontend Templates (UI) Explained</h2>
+
+<p>This project uses Django Templates to render dynamic data on the browser using Bootstrap for styling. Templates follow Django’s inheritance mechanism for reusability and consistency.</p>
+
+<h3>🧩 <code>Navbar.html</code> (Base Template)</h3>
+<ul>
+  <li>📌 Acts as the main layout file extended by all pages.</li>
+  <li>🔗 Includes the navigation bar with links to IMDb and TOI scrapers.</li>
+  <li>📦 Loads Bootstrap via CDN for responsive styling.</li>
+  <li>🧱 Contains <code>{% block title %}</code> and <code>{% block content %}</code> tags for page-specific customization.</li>
+</ul>
+
+<pre><code>{% raw %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}Web Scraper{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Web Scrapper</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'IMDBHome' %}">IMDB Scrapper</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'TOIHome' %}">Times of India Scrapper</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    {% block content %}{% endblock %}
+  </body>
+</html>
+{% endraw %}</code></pre>
+
+<h3>🎬 <code>IMDBindex.html</code> (IMDb Template)</h3>
+<ul>
+  <li>🧾 Extends <code>Navbar.html</code> and injects content using <code>{% block content %}</code>.</li>
+  <li>🔍 Contains a search form to query IMDb news titles and descriptions.</li>
+  <li>🗂️ Iterates over <code>data</code> passed from views to display cards for each news article.</li>
+</ul>
+
+<pre><code>{% raw %}
+{% extends 'Navbar.html' %}
+{% block title %}IMDB Scrapper{% endblock %}
+
+{% block content %}
+<nav class="navbar bg-body-tertiary">
+  <form class="d-flex" method="get">
+    {% csrf_token %}
+    <input class="form-control" type="search" placeholder="Search IMDB News" name="imdb_search">
+    <button class="btn btn-outline-success" type="submit">Search</button>
+  </form>
+</nav>
+
+<div class="container">
+  <div class="row">
+    {% for news in data %}
+    <div class="col-4">
+      <div class="card" style="width: 18rem;">
+        <img src="{{ news.image }}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{ news.title }}</h5>
+          <p class="card-text">{{ news.description }}</p>
+          <a href="{{ news.external_link }}" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+{% endraw %}</code></pre>
+
+<h3>📰 <code>TOIindex.html</code> (Times of India Template)</h3>
+<ul>
+  <li>🧾 Also extends <code>Navbar.html</code>.</li>
+  <li>🔍 Includes a search form for Times of India news items.</li>
+  <li>🗂️ Dynamically renders each news card with an image, title, description, and external link.</li>
+</ul>
+
+<pre><code>{% raw %}
+{% extends 'Navbar.html' %}
+{% block title %}TOI News{% endblock %}
+
+{% block content %}
+<nav class="navbar bg-body-tertiary">
+  <form class="d-flex" method="get">
+    {% csrf_token %}
+    <input class="form-control" type="search" placeholder="Search TOI News" name="toi_search">
+    <button class="btn btn-outline-success" type="submit">Search</button>
+  </form>
+</nav>
+
+<div class="container">
+  <div class="row">
+    {% for news in data %}
+    <div class="col-4">
+      <div class="card" style="width: 18rem;">
+        <img src="{{ news.image }}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{ news.title }}</h5>
+          <p class="card-text">{{ news.description }}</p>
+          <a href="{{ news.external_link }}" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+{% endraw %}</code></pre>
+
+<p>✨ These templates offer a smooth and responsive UI where users can trigger scrapers and browse news content categorized by source.</p>
+
+</div>
+
+<div class="Fifth Step">
+  
+</div>
+
+<div class="Sixth Step">
+  <h2>6.✅ Conclusion</h2>
+
+<p>
+  This Django-based web scraping project was built to aggregate and present the latest <strong>entertainment news from IMDb</strong> 🎬 and <strong>general news from Times of India</strong> 📰 in a user-friendly, searchable interface.
+</p>
+
+<p>
+  By combining <code>BeautifulSoup</code> for scraping, Django’s ORM for data storage, and Bootstrap for styling, I was able to deliver a clean and functional web application that keeps users updated with fresh headlines. 🔁✨
+</p>
+
+<p>
+  Key Features:
+  <ul>
+    <li>⚙️ On-demand scraping via API endpoints</li>
+    <li>🔍 Keyword-based search to filter news titles and descriptions</li>
+    <li>🖼️ Responsive card layouts displaying images, summaries, and external links</li>
+    <li>🧠 Optimized with Django’s MVC pattern and reusable templates</li>
+  </ul>
+</p>
+
+<p>
+  This project helped me strengthen my Django fundamentals, learn the importance of data parsing and filtering, and experiment with real-time web data collection. 🚀
+</p>
+
+<p>
+  Thank you for checking it out! 😊<br>
+  Feel free to clone, star ⭐, or fork 🍴 this project if you found it helpful. Contributions and feedback are always welcome! 🙌
+</p>
+
+</div>
