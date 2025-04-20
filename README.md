@@ -232,7 +232,8 @@
   <li>Loads Bootstrap via CDN</li>
   <li>Defines two blocks: <code>{% block title %}</code> and <code>{% block content %}</code></li>
 </ul>
-<pre><code>{% raw %}
+
+```html
 <!doctype html>
 <html lang="en">
 <head>
@@ -262,8 +263,8 @@
   </div>
 </body>
 </html>
-{% endraw %}</code></pre>
-
+```
+```html
 <h3>🎬 <code>IMDBindex.html</code> (IMDb Template)</h3>
 <ul>
   <li>Extends <code>Navbar.html</code></li>
@@ -300,7 +301,7 @@
   {% endfor %}
 </div>
 {% endblock %}
-{% endraw %}</code></pre>
+```
 
 <h3>📰 <code>TOIindex.html</code> (Times of India Template)</h3>
 <ul>
@@ -308,7 +309,8 @@
   <li>Provides a search form for TOI news (<code>toi_search</code>)</li>
   <li>Loops over <code>data</code> and displays each news item as a Bootstrap card</li>
 </ul>
-<pre><code>{% raw %}
+
+```html
 {% extends 'Navbar.html' %}
 {% block title %}TOI News{% endblock %}
 
@@ -338,7 +340,7 @@
   {% endfor %}
 </div>
 {% endblock %}
-{% endraw %}</code></pre>
+```
 
 </div>
 
