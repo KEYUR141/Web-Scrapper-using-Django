@@ -377,7 +377,6 @@
 <p>
   Key Features:
   <ul>
-    <li>⚙️ On-demand scraping via API endpoints</li>
     <li>🔍 Keyword-based search to filter news titles and descriptions</li>
     <li>🖼️ Responsive card layouts displaying images, summaries, and external links</li>
     <li>🧠 Optimized with Django’s MVC pattern and reusable templates</li>
