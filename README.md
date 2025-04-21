@@ -351,14 +351,14 @@
   <p>5.1 IMDB original Webpage</p>
   <img src='IIMDB.png' width='800'>
   <p>5.2 IMDB Web Scrapper Page</p>
-  <img src='Search_IMDB.png' width='800'>
+  <img src='SEARCH_IMDB.png' width='800'>
   <p>5.3 Searching in IMDB Page</p>
   <br><br>
   <img src='TOI_Original.png' width='800'>
   <p>5.4 TOI original Webpage</p>
   <img src='TOI.png' width='800'>
   <p>5.5 TOI Web Scrapper Page</p>
-  <img src='Search_TOI.png' width='800'>
+  <img src='SEARCH_TOI.png' width='800'>
   <p>5.6 Searching in TOI Page</p>
   
 </div>
