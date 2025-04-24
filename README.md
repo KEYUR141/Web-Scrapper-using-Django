@@ -346,7 +346,7 @@
 </div>
 
 <div class="Fifth Step">
-  <h2>Images of the Ouputs</h2>
+  <h2>Images of the Outputs and Old Web Scrapped Pages </h2>
   <img src='IMDB_Original.png' width='800'>
   <p>5.1 IMDB original Webpage</p>
   <img src='IIMDB.png' width='800'>
