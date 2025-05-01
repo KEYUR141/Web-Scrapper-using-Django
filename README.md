@@ -18,7 +18,7 @@
   <li>Search functionality for quickly finding movies or news</li>
   <li>Responsive Bootstrap-based UI</li>
 </ul>
-  ## 🛠️ Tools Used
+  <h2>🛠️ Tools Used</h2>
 
 ![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white)
 ![Celery](https://img.shields.io/badge/celery-%2337813A.svg?style=for-the-badge&logo=celery&logoColor=white)
