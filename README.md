@@ -19,12 +19,11 @@
   <li>Responsive Bootstrap-based UI</li>
 </ul>
   <h2> 🛠️ Tools Used </h2>
-  <ul>
-  <li>![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white</li>
-  <li>![Celery](https://img.shields.io/badge/celery-%2337813A.svg?style=for-the-badge&logo=celery&logoColor=white)</li>
-  <li>![Redis](https://img.shields.io/badge/redis-%23DC382D.svg?style=for-the-badge&logo=redis&logoColor=white)</li>
-  <li>![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)</li>
-  </ul>
+  ![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white)
+  ![Celery](https://img.shields.io/badge/celery-%2337813A.svg?style=for-the-badge&logo=celery&logoColor=white)
+  ![Redis](https://img.shields.io/badge/redis-%23DC382D.svg?style=for-the-badge&logo=redis&logoColor=white)
+  ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+  
 </div>
 
 <div class="Second Step">
