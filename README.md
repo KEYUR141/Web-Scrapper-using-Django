@@ -352,27 +352,72 @@
 ```
 
 </div>
-
 <div class="Fifth Step">
-  <h2>Images of the Outputs and Old Web Scrapped Pages </h2>
-  <img src='IMDB_Original.png' width='800'>
-  <p>5.1 IMDB original Webpage</p>
-  <img src='IIMDB.png' width='800'>
-  <p>5.2 IMDB Web Scrapper Page</p>
-  <img src='SEARCH_IMDB.png' width='800'>
-  <p>5.3 Searching in IMDB Page</p>
-  <br><br>
-  <img src='TOI_Original.png' width='800'>
-  <p>5.4 TOI original Webpage</p>
-  <img src='TOI.png' width='800'>
-  <p>5.5 TOI Web Scrapper Page</p>
-  <img src='SEARCH_TOI.png' width='800'>
-  <p>5.6 Searching in TOI Page</p>
-  
+  <h2>Celery Integration for Background Image Downloading</h2>
+
+  <p>
+  In this project, I utilized <strong>Celery</strong> to handle time-consuming tasks asynchronously. One such task is downloading images while scraping websites.
+</p>
+
+<h3>📌 How It Works:</h3>
+<ul>
+  <li>I defined a Celery task named <code>download_image</code> that accepts an image URL, save directory, and image filename.</li>
+  <li>The task checks if the save directory exists, creates it if not, and then streams and saves the image to the specified path.</li>
+  <li>This prevents blocking the main web scraping process, allowing other operations to continue while images are being downloaded in the background.</li>
+</ul>
+
+<p><strong>Celery Task Example:</strong></p>
+
+
+
+<pre><code>from celery import shared_task
+import requests
+import os
+
+@shared_task
+def download_image(image_url, save_directory, image_name):
+    if not os.path.exists(save_directory):
+        os.makedirs(save_directory)
+    image_path = os.path.join(save_directory, image_name)
+    response = requests.get(image_url, stream=True)
+    if response.status_code == 200:
+        with open(image_path, 'wb') as file:
+            for chunk in response.iter_content(1024):
+                file.write(chunk)
+    return image_url
+</code></pre>
+
+
+
+<h3>📁 Note on Image Sources</h3>
+<p>
+  Due to file upload limitations in the current demo or deployment environment, I have used <strong>IMDB web images</strong> in place of <strong>TOI (Times of India) web images</strong> for showcasing the functionality.
+</p>
+<p>
+  However, the system is fully designed to support and work with <strong>both IMDB and TOI images</strong>. The backend logic and image downloading task remain the same for any supported domain.
+</p>
 </div>
 
 <div class="Sixth Step">
-  <h2>6.✅ Conclusion</h2>
+  <h2>6.Images of the Outputs and Old Web Scrapped Pages </h2>
+  <img src='IMDB_Original.png' width='800'>
+  <p>6.1 IMDB original Webpage</p>
+  <img src='IIMDB.png' width='800'>
+  <p>6.2 IMDB Web Scrapper Page</p>
+  <img src='SEARCH_IMDB.png' width='800'>
+  <p>6.3 Searching in IMDB Page</p>
+  <br><br>
+  <img src='TOI_Original.png' width='800'>
+  <p>6.4 TOI original Webpage</p>
+  <img src='TOI.png' width='800'>
+  <p>6.5 TOI Web Scrapper Page</p>
+  <img src='SEARCH_TOI.png' width='800'>
+  <p>6.6 Searching in TOI Page</p>
+  
+</div>
+
+<div class="Seventh Step">
+  <h2>7.✅ Conclusion</h2>
 
 <p>
   This Django-based web scraping project was built to aggregate and present the latest <strong>entertainment news from IMDb</strong> 🎬 and <strong>general news from Times of India</strong> 📰 in a user-friendly, searchable interface.
