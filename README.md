@@ -353,7 +353,7 @@
 
 </div>
 <div class="Fifth Step">
-  <h2>Celery Integration for Background Image Downloading</h2>
+  <h2>5.Celery Integration for Background Image Downloading</h2>
 
   <p>
   In this project, I utilized <strong>Celery</strong> to handle time-consuming tasks asynchronously. One such task is downloading images while scraping websites.
