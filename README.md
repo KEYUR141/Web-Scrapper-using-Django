@@ -402,14 +402,14 @@ def download_image(image_url, save_directory, image_name):
   <h2>6.Images of the Outputs and Old Web Scrapped Pages </h2>
   <img src='IMDB_Original.png' width='800'>
   <p>6.1 IMDB original Webpage</p>
-  <img src='IIMDB.png' width='800'>
+  <img src='IMDB_Scrapper.png' width='800'>
   <p>6.2 IMDB Web Scrapper Page</p>
   <img src='SEARCH_IMDB.png' width='800'>
   <p>6.3 Searching in IMDB Page</p>
   <br><br>
   <img src='TOI_Original.png' width='800'>
   <p>6.4 TOI original Webpage</p>
-  <img src='TOI.png' width='800'>
+  <img src='TOI_Scrapper.png' width='800'>
   <p>6.5 TOI Web Scrapper Page</p>
   <img src='SEARCH_TOI.png' width='800'>
   <p>6.6 Searching in TOI Page</p>
