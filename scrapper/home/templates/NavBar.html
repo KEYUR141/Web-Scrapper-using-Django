@@ -5,32 +5,127 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Web Scraper{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <style>
+      body {
+        background: #f8f9fa;
+        min-height: 100vh;
+        transition: background 0.3s;
+      }
+      .navbar {
+        background: #fff !important;
+        border-bottom: 1px solid #e5e7eb;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      }
+      .navbar-brand {
+        font-weight: 600;
+        color: #22223b !important;
+        letter-spacing: 1px;
+        font-size: 1.4rem;
+      }
+      .navbar-nav .nav-link {
+        color: #22223b !important;
+        font-weight: 500;
+        margin-right: 0.5rem;
+        transition: color 0.2s;
+      }
+      .navbar-nav .nav-link.active, .navbar-nav .nav-link:hover {
+        color: #2563eb !important;
+      }
+      .navbar-toggler {
+        border: none;
+      }
+      /* Dark mode styles */
+      body.dark-mode {
+        background: #18181b;
+      }
+      .dark-mode .navbar {
+        background: #23272f !important;
+        border-bottom: 1px solid #343a40;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      }
+      .dark-mode .navbar-brand,
+      .dark-mode .navbar-nav .nav-link {
+        color: #f3f4f6 !important;
+      }
+      .dark-mode .navbar-nav .nav-link.active, .dark-mode .navbar-nav .nav-link:hover {
+        color: #60a5fa !important;
+      }
+      .toggle-btn {
+        border: none;
+        background: none;
+        font-size: 1.3rem;
+        margin-left: 1rem;
+        color: #22223b;
+        transition: color 0.2s;
+      }
+      .dark-mode .toggle-btn {
+        color: #f3f4f6;
+      }
+    </style>
   </head>
   <body>
 
     
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">Web Scrapper</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{%url 'IMDBHome' %}">IMDB Scrapper</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'TOIHome' %}">Times of India Scrapper</a>
-              </li>
+  <nav class="navbar navbar-expand-lg sticky-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Web Scrapper</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'IMDBHome' %}">IMDB Scrapper</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'TOIHome' %}">Times of India Scrapper</a>
+            </li>
             </ul>
-          </div>
+            <form class="d-flex ms-3" role="search" method="get" action="">
+              {% csrf_token %}
+              <input class="form-control me-2" type="search" placeholder="Search..." aria-label="Search" name="navbar_search" value="{{ imdb_search|default_if_none:'' }}{{ toi_search|default_if_none:'' }}">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            <button class="toggle-btn" id="toggleModeBtn" title="Toggle day/night mode">
+              <span id="toggleIcon" class="bi bi-moon"></span>
+            </button>
         </div>
+      </div>
     </nav>
 
     {% block content %}
 
     {% endblock %}
 
+</body>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <!-- Bootstrap Icons for toggle icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <script>
+      // Day/Night mode toggle
+      const toggleBtn = document.getElementById('toggleModeBtn');
+      const toggleIcon = document.getElementById('toggleIcon');
+      function setMode(dark) {
+        if (dark) {
+          document.body.classList.add('dark-mode');
+          toggleIcon.classList.remove('bi-moon');
+          toggleIcon.classList.add('bi-sun');
+        } else {
+          document.body.classList.remove('dark-mode');
+          toggleIcon.classList.remove('bi-sun');
+          toggleIcon.classList.add('bi-moon');
+        }
+      }
+      // Load mode from localStorage
+      let isDark = localStorage.getItem('darkMode') === 'true';
+      setMode(isDark);
+      toggleBtn.addEventListener('click', function() {
+        isDark = !isDark;
+        setMode(isDark);
+        localStorage.setItem('darkMode', isDark);
+      });
+    </script>
+</html>
 </body>
 </html>

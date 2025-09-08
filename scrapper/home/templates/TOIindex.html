@@ -4,29 +4,70 @@
 {% block title %}TOI News{% endblock %}
 
 {% block content %}
-<nav class="navbar bg-body-tertiary">
-    <div class="container-fluid">
-      <a class="navbar-brand">Search What You Like</a>
-      <form class="d-flex" role="search" method="get">
-        {% csrf_token %}
-        <input class="form-control me-2" type="search" placeholder="Search TOI News" value="{{toi_search}}"aria-label="Search" name="toi_search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
-    </div>
-  </nav>
+<style>
+  .card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border: none;
+    background: #fff;
+    color: #22223b;
+  }
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08) !important;
+  }
+  .card-img-top {
+    height: 200px;
+    object-fit: cover;
+  }
+  .card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  .card-text {
+    font-size: 0.95rem;
+    flex-grow: 1;
+  }
+  /* Dark mode support */
+  body.dark-mode .card {
+    background: #23272f;
+    color: #f3f4f6;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.18) !important;
+  }
+  body.dark-mode .card-title,
+  body.dark-mode .card-text {
+    color: #f3f4f6;
+  }
+  body.dark-mode .btn-outline-primary {
+    color: #60a5fa;
+    border-color: #60a5fa;
+  }
+  body.dark-mode .btn-outline-primary:hover {
+    background: #60a5fa;
+    color: #18181b;
+    border-color: #60a5fa;
+  }
+</style>
 
-  <div class="container">
+
+<div class="container mt-4">
+
+  <div class="container mt-4">
     <div class="row">
-        {%for news in data%}
-        <div class="col-4">
-        <div class="card" style="width: 18rem;">
-            <img src="{{news.image}}" class="card-img-top img-fluid" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">{{news.title}}</h5>
-              <p class="card-text">{{news.description}}</p>
-              <a href="{{news.external_link}}" class="btn btn-primary">Go somewhere</a>
+        {% for news in data %}
+        <div class="col-lg-4 col-md-6 mb-4 d-flex align-items-stretch">
+          <div class="card w-100 shadow-sm">
+            <img src="{{ news.image }}" class="card-img-top" alt="{{ news.title }}">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title mb-2">{{ news.title }}</h5>
+              <p class="card-text mb-3">{{ news.description }}</p>
+              <a href="{{ news.external_link }}" class="btn btn-outline-primary btn-sm mt-auto" target="_blank">Read More</a>
             </div>
           </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center mt-5">
+            <h4>No News Found</h4>
+            <p class="text-muted">Try searching for something else.</p>
         </div>
         {% endfor %}
     </div>
